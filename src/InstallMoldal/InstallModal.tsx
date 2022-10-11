@@ -1,11 +1,33 @@
-import React from "react";
-import { BsCheckCircleFill } from "react-icons/bs";
-import { RiCloseCircleFill } from "react-icons/ri";
-import { ImSpinner3 } from "react-icons/im";
+import React, { useMemo } from "react";
 
 import * as S from "./styles";
+import { Checkup } from "../components";
+import { ICheckItem, ICheckItemType } from "./types";
 
 const InstallModal = () => {
+  const checkList: ICheckItem[] = useMemo(
+    () => [
+      {
+        label: "Teste de velocidade de internet",
+        type: ICheckItemType.NetworkSpeed,
+      },
+      {
+        label: "Teste de acesso ao servidor",
+        type: ICheckItemType.ServerAccess,
+      },
+      {
+        label: "Pjeoffice desinstalado",
+        type: ICheckItemType.PjeOfficeUninstalled,
+      },
+      { label: "Shodô desinstalado", type: ICheckItemType.ShodoUninstalled },
+      {
+        label: "Websigner desinstalado",
+        type: ICheckItemType.WebSignerUninstalled,
+      },
+    ],
+    []
+  );
+
   return (
     <S.Container>
       <S.Card>
@@ -13,26 +35,11 @@ const InstallModal = () => {
         <S.TitleContainer>
           Verificando compatibilidade com o Whom.
         </S.TitleContainer>
-        <S.CheckContainer>
-          <BsCheckCircleFill style={{ color: " #18AB4E" }} />
-          <span className="span"> teste de velocidade de internet </span>
-        </S.CheckContainer>
-        <S.CheckContainer>
-          <BsCheckCircleFill style={{ color: " #18AB4E" }} />
-          <span className="span"> teste de acesso ao servidor </span>
-        </S.CheckContainer>
-        <S.CheckContainer>
-          <RiCloseCircleFill style={{ color: " #c71913" }} size={19} />
-          <span className="span"> pjeoffice desinstalado </span>
-        </S.CheckContainer>
-        <S.CheckContainer>
-          <ImSpinner3 className="spin" style={{ color: " #777" }} size={15} />
-          <span className="span"> shodô desinstalado </span>
-        </S.CheckContainer>
-        <S.CheckContainer>
-          <ImSpinner3 className="spin" style={{ color: " #777" }} size={15} />
-          <span className="span"> websigner desinstalado</span>
-        </S.CheckContainer>
+
+        {checkList.map((item, index) => (
+          <Checkup text={item.label} type={item.type} key={index} />
+        ))}
+
         <S.Button>Concluir</S.Button>
       </S.Card>
     </S.Container>
