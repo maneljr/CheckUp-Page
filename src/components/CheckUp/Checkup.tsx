@@ -15,8 +15,8 @@ const Checkup = (props: ICheckup) => {
   const measureConnectionSpeed = useCallback(() => {
     const imageAddr =
       "https://svs.gsfc.nasa.gov/vis/a030000/a030800/a030877/frames/5760x3240_16x9_01p/BlackMarble_2016_928m_europe_labeled.png";
-
     const downloadSize = 24332 * 1024;
+
     const download = new Image();
     let endTime = 0;
     const startTime = new Date().getTime();
@@ -57,7 +57,19 @@ const Checkup = (props: ICheckup) => {
     if (type === ICheckItemType.NetworkSpeed) {
       measureConnectionSpeed();
     }
-  }, []);
+    if (type === ICheckItemType.ServerAccess) {
+      // função espesifica
+    }
+    if (type === ICheckItemType.PjeOfficeUninstalled) {
+      // função espesifica
+    }
+    if (type === ICheckItemType.ShodoUninstalled) {
+      // função espesifica
+    }
+    if (type === ICheckItemType.WebSignerUninstalled) {
+      // função espesifica
+    }
+  }, [type]);
 
   if (loading) {
     return (
