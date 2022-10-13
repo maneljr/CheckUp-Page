@@ -6,6 +6,7 @@ import { ImSpinner3 } from "react-icons/im";
 import * as S from "./styles";
 import { ICheckup } from "./types";
 import { ICheckItemType } from "../../InstallMoldal/types";
+import { ExtensionSigner } from "../../services";
 
 const Checkup = (props: ICheckup) => {
   const { text, type } = props;
@@ -53,18 +54,64 @@ const Checkup = (props: ICheckup) => {
     };
   }, []);
 
+  const shodoInstalled = async () => {
+    try {
+      await ExtensionSigner.shodo().then((status) => {
+        if (status === 200) {
+          setStatus(false);
+          setLoading(false);
+        }
+      });
+    } catch (error) {
+      console.log("Shodo não instalado ->", error);
+      setStatus(true);
+      setLoading(false);
+    }
+  };
+
+  const pjeOfficeInstalled = async () => {
+    try {
+      await ExtensionSigner.pjeoffice().then((status) => {
+        setStatus(false);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log("PjeOffice não instalado ->", error);
+      setStatus(true);
+      setLoading(false);
+    }
+  };
+
+  const serverAccess = async () => {
+    try {
+      await ExtensionSigner.cloud().then((status) => {
+        if (status === 200) {
+          setStatus(true);
+          setLoading(false);
+        } else {
+          setStatus(false);
+          setLoading(false);
+        }
+      });
+    } catch (error) {
+      console.log("Erro ao acessar servidor do whom ->", error);
+      setStatus(false);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (type === ICheckItemType.NetworkSpeed) {
       measureConnectionSpeed();
     }
     if (type === ICheckItemType.ServerAccess) {
-      // função espesifica
+      serverAccess();
     }
     if (type === ICheckItemType.PjeOfficeUninstalled) {
-      // função espesifica
+      pjeOfficeInstalled();
     }
     if (type === ICheckItemType.ShodoUninstalled) {
-      // função espesifica
+      shodoInstalled();
     }
     if (type === ICheckItemType.WebSignerUninstalled) {
       // função espesifica
