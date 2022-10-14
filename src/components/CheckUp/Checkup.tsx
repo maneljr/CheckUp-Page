@@ -70,16 +70,20 @@ const Checkup = (props: ICheckup) => {
   };
 
   const pjeOfficeInstalled = async () => {
-    try {
-      await ExtensionSigner.pjeoffice().then((status) => {
-        setStatus(false);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log("PjeOffice não instalado ->", error);
+    let imagem = new Image();
+    imagem.onload = function () {
+      console.log("PjeOffice instalado");
+      setStatus(false);
+      setLoading(false);
+    };
+
+    imagem.onerror = function (err, msg) {
+      console.log("PjeOffice não instalado", err, msg);
       setStatus(true);
       setLoading(false);
-    }
+    };
+
+    imagem.src = "http://localhost:8800/pjeOffice/?&u=" + new Date().getTime();
   };
 
   const serverAccess = async () => {

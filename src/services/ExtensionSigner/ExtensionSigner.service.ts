@@ -8,7 +8,9 @@ const ExtensionSigner = {
     return status;
   },
   pjeoffice: async () => {
-    const { status } = await axios.options("http://localhost:8800/pjeOffice/");
+    const { status } = await axios.options(
+      "http://localhost:8800/pjeOffice/?&u=1665683500680"
+    );
     return status;
   },
   cloud: async () => {
