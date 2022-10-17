@@ -7,6 +7,8 @@ import * as S from "./styles";
 import { ICheckup } from "./types";
 import { ICheckItemType } from "../../InstallMoldal/types";
 import { ExtensionSigner } from "../../services";
+import { sendMessageToExtension } from "../../utils/utils";
+import { error } from "console";
 
 const Checkup = (props: ICheckup) => {
   const { text, type } = props;
@@ -104,6 +106,30 @@ const Checkup = (props: ICheckup) => {
     }
   };
 
+  const webSignerInstalled = () => {
+    sendMessageToExtension(
+      "lknfacnjcpnkhelbachpanihncelbaal",
+      "GET/INSTALLED_EXTENSIONS",
+      null
+    )
+      .then((response) => {
+        if (
+          response.data.map((r) => {
+            return r.name.includes("Web Signer");
+          })
+        ) {
+          console.log("Web Signer instalado");
+          setStatus(false);
+          setLoading(false);
+        } else {
+          console.log("Web Signer não instalado");
+          setStatus(true);
+          setLoading(false);
+        }
+      })
+      .catch(error);
+  };
+
   useEffect(() => {
     if (type === ICheckItemType.NetworkSpeed) {
       measureConnectionSpeed();
@@ -118,7 +144,7 @@ const Checkup = (props: ICheckup) => {
       shodoInstalled();
     }
     if (type === ICheckItemType.WebSignerUninstalled) {
-      // função espesifica
+      webSignerInstalled();
     }
   }, [type]);
 
