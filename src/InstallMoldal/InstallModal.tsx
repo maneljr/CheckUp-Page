@@ -16,12 +16,12 @@ const InstallModal = () => {
         type: ICheckItemType.ServerAccess,
       },
       {
-        label: "Pjeoffice desinstalado",
+        label: "Pjeoffice desativado",
         type: ICheckItemType.PjeOfficeUninstalled,
       },
-      { label: "Shodô desinstalado", type: ICheckItemType.ShodoUninstalled },
+      { label: "Shodô desativado", type: ICheckItemType.ShodoUninstalled },
       {
-        label: "Websigner desinstalado",
+        label: "Websigner desativado",
         type: ICheckItemType.WebSignerUninstalled,
       },
     ],

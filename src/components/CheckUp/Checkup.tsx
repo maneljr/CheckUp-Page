@@ -59,13 +59,13 @@ const Checkup = (props: ICheckup) => {
     try {
       await ExtensionSigner.shodo().then((status) => {
         if (status === 200) {
-          console.log("Shodo instalado ");
+          console.log("Shodo ativo");
           setStatus(false);
           setLoading(false);
         }
       });
     } catch (error) {
-      console.log("Shodo não instalado ->", error);
+      console.log("Shodo não instalado ou desativado ->", error);
       setStatus(true);
       setLoading(false);
     }
@@ -74,13 +74,13 @@ const Checkup = (props: ICheckup) => {
   const pjeOfficeInstalled = async () => {
     let imagem = new Image();
     imagem.onload = function () {
-      console.log("PjeOffice instalado");
+      console.log("PjeOffice está ativo");
       setStatus(false);
       setLoading(false);
     };
 
     imagem.onerror = function (err, msg) {
-      console.log("PjeOffice não instalado", err, msg);
+      console.log("PjeOffice não instalado ou desativo", err, msg);
       setStatus(true);
       setLoading(false);
     };
@@ -92,9 +92,11 @@ const Checkup = (props: ICheckup) => {
     try {
       await ExtensionSigner.cloud().then((status) => {
         if (status === 200) {
+          console.log("Servidor acessado com sucesso");
           setStatus(true);
           setLoading(false);
         } else {
+          console.log("Erro ao acessar servidor do whom");
           setStatus(false);
           setLoading(false);
         }
@@ -118,17 +120,19 @@ const Checkup = (props: ICheckup) => {
             return r.name.includes("Web Signer") && r.enabled;
           })
         ) {
-          console.log("Web Signer instalado");
+          console.log("Web Signer ativo");
           setStatus(false);
           setLoading(false);
         } else {
-          console.log("Web Signer não instalado");
+          console.log("Web Signer desativado ou desinstalado");
           setStatus(true);
           setLoading(false);
         }
       })
       .catch((err) => {
         console.log("Erro na verificação do Websigner ", err);
+        setStatus(true);
+        setLoading(false);
       });
   };
 
