@@ -113,6 +113,8 @@ const Checkup = (props: ICheckup) => {
       extId: "",
     };
 
+    console.log("doc9.extId --> ", doc9.extId);
+
     sendMessageToExtension(doc9.extId, "GET/INSTALLED_EXTENSIONS", null)
       .then((response) => {
         if (
