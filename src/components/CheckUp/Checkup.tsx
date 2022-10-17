@@ -8,7 +8,6 @@ import { ICheckup } from "./types";
 import { ICheckItemType } from "../../InstallMoldal/types";
 import { ExtensionSigner } from "../../services";
 import { sendMessageToExtension } from "../../utils/utils";
-import { error } from "console";
 
 const Checkup = (props: ICheckup) => {
   const { text, type } = props;
@@ -127,7 +126,9 @@ const Checkup = (props: ICheckup) => {
           setLoading(false);
         }
       })
-      .catch(error);
+      .catch((err) => {
+        console.log("Erro na verificação do Websigner ", err);
+      });
   };
 
   useEffect(() => {
