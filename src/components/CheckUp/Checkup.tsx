@@ -80,7 +80,7 @@ const Checkup = (props: ICheckup) => {
     };
 
     imagem.onerror = function (err, msg) {
-      console.log("PjeOffice não instalado ou desativo", err, msg);
+      console.log("PjeOffice não instalado ou desativado", err, msg);
       setStatus(true);
       setLoading(false);
     };
@@ -109,11 +109,11 @@ const Checkup = (props: ICheckup) => {
   };
 
   const webSignerInstalled = () => {
-    sendMessageToExtension(
-      "lknfacnjcpnkhelbachpanihncelbaal",
-      "GET/INSTALLED_EXTENSIONS",
-      null
-    )
+    const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
+      extId: "",
+    };
+
+    sendMessageToExtension(doc9.extId, "GET/INSTALLED_EXTENSIONS", null)
       .then((response) => {
         if (
           response.data.map((r) => {
