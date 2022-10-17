@@ -59,6 +59,7 @@ const Checkup = (props: ICheckup) => {
     try {
       await ExtensionSigner.shodo().then((status) => {
         if (status === 200) {
+          console.log("Shodo instalado ");
           setStatus(false);
           setLoading(false);
         }
@@ -114,7 +115,7 @@ const Checkup = (props: ICheckup) => {
       .then((response) => {
         if (
           response.data.map((r) => {
-            return r.name.includes("Web Signer");
+            return r.name.includes("Web Signer") && r.enabled;
           })
         ) {
           console.log("Web Signer instalado");
