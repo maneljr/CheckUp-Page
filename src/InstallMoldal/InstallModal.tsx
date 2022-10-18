@@ -53,12 +53,11 @@ const InstallModal = () => {
         ))}
 
         <S.Button disabled={count < 5}>
-          {" "}
           {count < 5 ? (
             <ImSpinner3 className="spin" style={{ color: " #777" }} size={15} />
           ) : (
             "Concluir"
-          )}{" "}
+          )}
         </S.Button>
       </S.Card>
     </S.Container>
