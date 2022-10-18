@@ -10,7 +10,7 @@ import { ExtensionSigner } from "../../services";
 import { sendMessageToExtension } from "../../utils/utils";
 
 const Checkup = (props: ICheckup) => {
-  const { text, type } = props;
+  const { text, type, counter } = props;
   const [status, setStatus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -48,10 +48,13 @@ const Checkup = (props: ICheckup) => {
         setStatus(false);
         setLoading(false);
       }
+
+      counter();
     };
 
     download.onerror = function (err, msg) {
       console.log("Invalid image, or error downloading", err, msg);
+      counter();
     };
   }, []);
 
@@ -68,6 +71,8 @@ const Checkup = (props: ICheckup) => {
       console.log("Shodo não instalado ou desativado ->", error);
       setStatus(true);
       setLoading(false);
+    } finally {
+      counter();
     }
   };
 
@@ -77,12 +82,14 @@ const Checkup = (props: ICheckup) => {
       console.log("PjeOffice está ativo");
       setStatus(false);
       setLoading(false);
+      counter();
     };
 
     imagem.onerror = function (err, msg) {
       console.log("PjeOffice não instalado ou desativado", err, msg);
       setStatus(true);
       setLoading(false);
+      counter();
     };
 
     imagem.src = "http://localhost:8800/pjeOffice/?&u=" + new Date().getTime();
@@ -105,6 +112,8 @@ const Checkup = (props: ICheckup) => {
       console.log("Erro ao acessar servidor do whom ->", error);
       setStatus(false);
       setLoading(false);
+    } finally {
+      counter();
     }
   };
 
@@ -113,7 +122,7 @@ const Checkup = (props: ICheckup) => {
       extId: "",
     };
 
-    console.log("doc9.extId --> ", doc9.extId);
+    console.log("extId >", doc9.extId);
 
     sendMessageToExtension(doc9.extId, "GET/INSTALLED_EXTENSIONS", null)
       .then((response) => {
@@ -135,6 +144,9 @@ const Checkup = (props: ICheckup) => {
         console.log("Erro na verificação do Websigner ", err);
         setStatus(true);
         setLoading(false);
+      })
+      .finally(() => {
+        counter();
       });
   };
 

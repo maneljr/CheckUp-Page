@@ -1,10 +1,17 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 import * as S from "./styles";
 import { Checkup } from "../components";
 import { ICheckItem, ICheckItemType } from "./types";
+import { ImSpinner3 } from "react-icons/im";
 
 const InstallModal = () => {
+  const [count, setCont] = useState<number>(0);
+
+  const counter = () => {
+    setCont((prev) => prev + 1);
+  };
+
   const checkList: ICheckItem[] = useMemo(
     () => [
       {
@@ -37,10 +44,22 @@ const InstallModal = () => {
         </S.TitleContainer>
 
         {checkList.map((item, index) => (
-          <Checkup text={item.label} type={item.type} key={index} />
+          <Checkup
+            text={item.label}
+            type={item.type}
+            key={index}
+            counter={counter}
+          />
         ))}
 
-        <S.Button>Concluir</S.Button>
+        <S.Button disabled={count < 5}>
+          {" "}
+          {count < 5 ? (
+            <ImSpinner3 className="spin" style={{ color: " #777" }} size={15} />
+          ) : (
+            "Concluir"
+          )}{" "}
+        </S.Button>
       </S.Card>
     </S.Container>
   );

@@ -92,4 +92,41 @@ const Button = styled.button`
   }
 `;
 
-export { Container, Image, Card, CheckContainer, TitleContainer, Button };
+const FailButton = styled.button`
+  height: 37px;
+  width: 200px;
+  @media only screen and (max-width: 700px) {
+    width: 100%;
+  }
+  background-color: #ae0000;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover:enabled {
+    background-color: #d03541;
+  }
+
+  &:active:enabled {
+    background-color: #740000;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+  }
+`;
+
+export {
+  Container,
+  Image,
+  Card,
+  CheckContainer,
+  TitleContainer,
+  Button,
+  FailButton,
+};
