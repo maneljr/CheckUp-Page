@@ -18,7 +18,6 @@ const Checkup = (props: ICheckup) => {
     const imageAddr =
       "https://effigis.com/wp-content/uploads/2015/02/DigitalGlobe_WorldView1_50cm_8bit_BW_DRA_Bangkok_Thailand_2009JAN06_8bits_sub_r_1.jpg";
     const downloadSize = 24332 * 1024;
-
     const download = new Image();
     let endTime = 0;
     const startTime = new Date().getTime();
@@ -27,20 +26,17 @@ const Checkup = (props: ICheckup) => {
 
     download.onload = function () {
       endTime = new Date().getTime();
-
       const duration = (endTime - startTime) / 1000;
       const bitsLoaded = downloadSize * 8;
       const speedBps = (bitsLoaded / duration).toFixed(2);
       const speedKbps = (+speedBps / 1024).toFixed(2);
       const speedMbps = (+speedKbps / 1024).toFixed(2);
-
       console.log([
         "Your connection speed is :",
         speedBps + " bps",
         speedKbps + " kbps",
         speedMbps + " Mbps",
       ]);
-
       if (+speedMbps > 5.0) {
         setStatus(true);
         setLoading(false);
@@ -48,7 +44,6 @@ const Checkup = (props: ICheckup) => {
         setStatus(false);
         setLoading(false);
       }
-
       counter();
     };
 
@@ -56,9 +51,9 @@ const Checkup = (props: ICheckup) => {
       console.log("Invalid image, or error downloading", err, msg);
       counter();
     };
-  }, []);
+  }, [counter]);
 
-  const shodoInstalled = async () => {
+  const shodoInstalled = useCallback(async () => {
     try {
       await ExtensionSigner.shodo().then((status) => {
         if (status === 200) {
@@ -74,9 +69,9 @@ const Checkup = (props: ICheckup) => {
     } finally {
       counter();
     }
-  };
+  }, [counter]);
 
-  const pjeOfficeInstalled = async () => {
+  const pjeOfficeInstalled = useCallback(async () => {
     let imagem = new Image();
     imagem.onload = function () {
       console.log("PjeOffice está ativo");
@@ -93,9 +88,9 @@ const Checkup = (props: ICheckup) => {
     };
 
     imagem.src = "http://localhost:8800/pjeOffice/?&u=" + new Date().getTime();
-  };
+  }, [counter]);
 
-  const serverAccess = async () => {
+  const serverAccess = useCallback(async () => {
     try {
       await ExtensionSigner.cloud().then((status) => {
         if (status === 200) {
@@ -115,9 +110,10 @@ const Checkup = (props: ICheckup) => {
     } finally {
       counter();
     }
-  };
+  }, [counter]);
 
-  const webSignerInstalled = () => {
+  const webSignerInstalled = useCallback(() => {
+    console.log("passei na função websigner");
     const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
       extId: "",
     };
@@ -148,25 +144,37 @@ const Checkup = (props: ICheckup) => {
       .finally(() => {
         counter();
       });
-  };
+  }, [counter]);
 
   useEffect(() => {
     if (type === ICheckItemType.NetworkSpeed) {
       measureConnectionSpeed();
     }
+  }, [type, measureConnectionSpeed]);
+
+  useEffect(() => {
     if (type === ICheckItemType.ServerAccess) {
       serverAccess();
     }
+  }, [type, serverAccess]);
+
+  useEffect(() => {
     if (type === ICheckItemType.PjeOfficeUninstalled) {
       pjeOfficeInstalled();
     }
+  }, [type, pjeOfficeInstalled]);
+
+  useEffect(() => {
     if (type === ICheckItemType.ShodoUninstalled) {
       shodoInstalled();
     }
+  }, [type, shodoInstalled]);
+
+  useEffect(() => {
     if (type === ICheckItemType.WebSignerUninstalled) {
       webSignerInstalled();
     }
-  }, [type]);
+  }, [type, webSignerInstalled]);
 
   if (loading) {
     return (

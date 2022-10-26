@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 import * as S from "./styles";
 import { Checkup } from "../components";
@@ -8,9 +8,13 @@ import { ImSpinner3 } from "react-icons/im";
 const InstallModal = () => {
   const [count, setCont] = useState<number>(0);
 
-  const counter = () => {
+  console.log(window.navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./));
+
+  //parseInt(raw[2], 10)
+
+  const counter = useCallback(() => {
     setCont((prev) => prev + 1);
-  };
+  }, []);
 
   const checkList: ICheckItem[] = useMemo(
     () => [
