@@ -25,11 +25,6 @@ jobs:
       - name: Generate build
         run: yarn build
 
-      - name: Zip build
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r build.zip build
-
       - uses: actions/upload-artifact@v3
         with:
-          path: build.zip
+          path: build/
