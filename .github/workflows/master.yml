@@ -1,0 +1,36 @@
+name: Release Build
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Generate build
+        run: yarn build
+
+      - name: Zip build
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r build.zip build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build.zip
+          path: /
