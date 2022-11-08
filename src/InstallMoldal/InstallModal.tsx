@@ -17,7 +17,7 @@ const InstallModal = () => {
     useState<boolean>(false);
 
   const chrome_version = window.navigator.userAgent
-    .match(/Chrom(e|ium)\/([0-9]+)\./)
+    .match(/Chrom(e|ium)\/(\d+)\./)
     ?.at(2);
   const extension_id = JSON.parse(localStorage.getItem("doc9") as string) || "";
 

@@ -54,7 +54,7 @@ const Checkup = (props: ICheckup) => {
       console.log("Invalid image, or error downloading", err, msg);
       counter();
     };
-  }, [counter]);
+  }, [counter, payload]);
 
   const shodoInstalled = useCallback(async () => {
     try {
@@ -74,7 +74,7 @@ const Checkup = (props: ICheckup) => {
     } finally {
       counter();
     }
-  }, [counter]);
+  }, [counter, payload]);
 
   const pjeOfficeInstalled = useCallback(async () => {
     let imagem = new Image();
@@ -95,7 +95,7 @@ const Checkup = (props: ICheckup) => {
     };
 
     imagem.src = "http://localhost:8800/pjeOffice/?&u=" + new Date().getTime();
-  }, [counter]);
+  }, [counter, payload]);
 
   const serverAccess = useCallback(async () => {
     try {
@@ -115,7 +115,7 @@ const Checkup = (props: ICheckup) => {
     } finally {
       counter();
     }
-  }, [counter]);
+  }, [counter, payload]);
 
   const webSignerInstalled = useCallback(() => {
     const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
@@ -151,7 +151,7 @@ const Checkup = (props: ICheckup) => {
       .finally(() => {
         counter();
       });
-  }, [counter]);
+  }, [counter, payload]);
 
   useEffect(() => {
     if (type === ICheckItemType.NetworkSpeed) {
