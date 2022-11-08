@@ -10,7 +10,7 @@ import { ExtensionSigner } from "../../services";
 import { sendMessageToExtension } from "../../utils/utils";
 
 const Checkup = (props: ICheckup) => {
-  const { text, type, counter } = props;
+  const { text, type, counter, payload } = props;
   const [status, setStatus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -37,6 +37,9 @@ const Checkup = (props: ICheckup) => {
         speedKbps + " kbps",
         speedMbps + " Mbps",
       ]);
+
+      payload(ICheckItemType.NetworkSpeed, `${speedMbps} Mbps`);
+
       if (+speedMbps > 5.0) {
         setStatus(true);
         setLoading(false);
@@ -58,12 +61,14 @@ const Checkup = (props: ICheckup) => {
       await ExtensionSigner.shodo().then((status) => {
         if (status === 200) {
           console.log("Shodo ativo");
+          payload(ICheckItemType.ShodoUninstalled, false);
           setStatus(false);
           setLoading(false);
         }
       });
     } catch (error) {
       console.log("Shodo não instalado ou desativado ->", error);
+      payload(ICheckItemType.ShodoUninstalled, true);
       setStatus(true);
       setLoading(false);
     } finally {
@@ -75,6 +80,7 @@ const Checkup = (props: ICheckup) => {
     let imagem = new Image();
     imagem.onload = function () {
       console.log("PjeOffice está ativo");
+      payload(ICheckItemType.PjeOfficeUninstalled, false);
       setStatus(false);
       setLoading(false);
       counter();
@@ -82,6 +88,7 @@ const Checkup = (props: ICheckup) => {
 
     imagem.onerror = function (err, msg) {
       console.log("PjeOffice não instalado ou desativado", err, msg);
+      payload(ICheckItemType.PjeOfficeUninstalled, true);
       setStatus(true);
       setLoading(false);
       counter();
@@ -95,16 +102,14 @@ const Checkup = (props: ICheckup) => {
       await ExtensionSigner.cloud().then((status) => {
         if (status === 200) {
           console.log("Servidor acessado com sucesso");
+          payload(ICheckItemType.ServerAccess, true);
           setStatus(true);
-          setLoading(false);
-        } else {
-          console.log("Erro ao acessar servidor do whom");
-          setStatus(false);
           setLoading(false);
         }
       });
     } catch (error) {
       console.log("Erro ao acessar servidor do whom ->", error);
+      payload(ICheckItemType.ServerAccess, false);
       setStatus(false);
       setLoading(false);
     } finally {
@@ -113,7 +118,6 @@ const Checkup = (props: ICheckup) => {
   }, [counter]);
 
   const webSignerInstalled = useCallback(() => {
-    console.log("passei na função websigner");
     const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
       extId: "",
     };
@@ -128,16 +132,19 @@ const Checkup = (props: ICheckup) => {
           })
         ) {
           console.log("Web Signer ativo");
+          payload(ICheckItemType.WebSignerUninstalled, false);
           setStatus(false);
           setLoading(false);
         } else {
           console.log("Web Signer desativado ou desinstalado");
+          payload(ICheckItemType.WebSignerUninstalled, true);
           setStatus(true);
           setLoading(false);
         }
       })
       .catch((err) => {
-        console.log("Erro na verificação do Websigner ", err);
+        console.log("Erro ao tentar acesso ao Web Signer", err);
+        payload(ICheckItemType.WebSignerUninstalled, true);
         setStatus(true);
         setLoading(false);
       })

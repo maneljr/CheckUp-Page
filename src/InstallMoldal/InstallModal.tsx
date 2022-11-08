@@ -4,13 +4,54 @@ import * as S from "./styles";
 import { Checkup } from "../components";
 import { ICheckItem, ICheckItemType } from "./types";
 import { ImSpinner3 } from "react-icons/im";
+import { ReportServices } from "../services";
 
 const InstallModal = () => {
   const [count, setCont] = useState<number>(0);
+  const [network_speed, setNetwork_speed] = useState<string>("0");
+  const [server_access, setServer_access] = useState<boolean>(false);
+  const [pjeoffice_uninstalled, setPjeoffice_uninstalled] =
+    useState<boolean>(false);
+  const [shodo_uninstalled, setShodo_uninstalled] = useState<boolean>(false);
+  const [websigner_uninstalled, setWebsigner_uninstalled] =
+    useState<boolean>(false);
 
-  console.log(window.navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./));
+  const chrome_version = window.navigator.userAgent
+    .match(/Chrom(e|ium)\/([0-9]+)\./)
+    ?.at(2);
+  const extension_id = JSON.parse(localStorage.getItem("doc9") as string) || "";
 
-  //parseInt(raw[2], 10)
+  const payloadReport = useCallback((type: ICheckItemType, value: any) => {
+    if (type === ICheckItemType.NetworkSpeed) setNetwork_speed(value);
+    if (type === ICheckItemType.ServerAccess) setServer_access(value);
+    if (type === ICheckItemType.PjeOfficeUninstalled)
+      setPjeoffice_uninstalled(value);
+    if (type === ICheckItemType.ShodoUninstalled) setShodo_uninstalled(value);
+    if (type === ICheckItemType.WebSignerUninstalled)
+      setWebsigner_uninstalled(value);
+  }, []);
+
+  const sendReport = () => {
+    console.log(
+      extension_id,
+      network_speed,
+      server_access,
+      pjeoffice_uninstalled,
+      shodo_uninstalled,
+      websigner_uninstalled,
+      chrome_version
+    );
+
+    ReportServices.send({
+      extension_id,
+      network_speed,
+      server_access,
+      pjeoffice_uninstalled,
+      shodo_uninstalled,
+      websigner_uninstalled,
+      chrome_version,
+    });
+  };
 
   const counter = useCallback(() => {
     setCont((prev) => prev + 1);
@@ -53,10 +94,11 @@ const InstallModal = () => {
             type={item.type}
             key={index}
             counter={counter}
+            payload={payloadReport}
           />
         ))}
 
-        <S.Button disabled={count < 5}>
+        <S.Button disabled={count < 5} onClick={sendReport}>
           {count < 5 ? (
             <ImSpinner3 className="spin" style={{ color: " #777" }} size={15} />
           ) : (

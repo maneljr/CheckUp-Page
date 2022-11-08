@@ -1,3 +1,5 @@
 import { ExtensionSigner } from "./ExtensionSigner";
+import { api } from "./api";
+import { ReportServices } from "./Report";
 
-export { ExtensionSigner };
+export { ExtensionSigner, api, ReportServices };
