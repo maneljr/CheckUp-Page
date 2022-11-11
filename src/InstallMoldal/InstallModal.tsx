@@ -19,7 +19,10 @@ const InstallModal = () => {
   const chrome_version = window.navigator.userAgent
     .match(/Chrom(e|ium)\/(\d+)\./)
     ?.at(2);
-  const extension_id = JSON.parse(localStorage.getItem("doc9") as string) || "";
+  const extensionId = JSON.parse(localStorage.getItem("doc9") as string) || {
+    extId: "",
+  };
+  const extension_id = extensionId.extId as string;
 
   const payloadReport = useCallback((type: ICheckItemType, value: any) => {
     if (type === ICheckItemType.NetworkSpeed) setNetwork_speed(value);
