@@ -26,6 +26,8 @@ const InstallModal = () => {
 
   const extension_id = userId as string;
 
+  console.log("userId", extension_id);
+
   const payloadReport = useCallback((type: ICheckItemType, value: any) => {
     if (type === ICheckItemType.NetworkSpeed) setNetwork_speed(value);
     if (type === ICheckItemType.ServerAccess) setServer_access(value);
