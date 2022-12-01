@@ -15,7 +15,14 @@ const ReportServices = {
 
         sendMessageToExtension(doc9.extId, "CLOSE/TAB", null);
       })
-      .catch((err) => console.log("Erro ao enviar relatorio", err));
+      .catch((err) => console.log("Erro ao enviar relatorio", err))
+      .finally(() => {
+        const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
+          extId: "",
+        };
+
+        sendMessageToExtension(doc9.extId, "CLOSE/TAB", null);
+      });
   },
 };
 
