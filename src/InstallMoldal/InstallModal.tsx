@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { ImSpinner3 } from "react-icons/im";
+import { toast } from "react-toastify";
 
 import * as S from "./styles";
 import { Checkup } from "../components";
 import { ICheckItem, ICheckItemType } from "./types";
-import { ImSpinner3 } from "react-icons/im";
 import { ReportServices } from "../services";
-import { sendMessageToExtension } from "../utils/utils";
 
 const InstallModal = () => {
   const [count, setCont] = useState<number>(0);
@@ -17,16 +17,16 @@ const InstallModal = () => {
   const [websigner_uninstalled, setWebsigner_uninstalled] =
     useState<boolean>(false);
 
+  const [emailUser, setEmailUser] = useState<string>("");
+
   const chrome_version = window.navigator.userAgent
     .match(/Chrom(e|ium)\/(\d+)\./)
     ?.at(2);
   const { userId } = JSON.parse(localStorage.getItem("doc9") as string) || {
-    userId: "",
+    userId: "Null",
   };
 
   const extension_id = userId as string;
-
-  console.log("userId", extension_id);
 
   const payloadReport = useCallback((type: ICheckItemType, value: any) => {
     if (type === ICheckItemType.NetworkSpeed) setNetwork_speed(value);
@@ -39,25 +39,23 @@ const InstallModal = () => {
   }, []);
 
   const sendReport = () => {
-    console.log(
-      extension_id,
-      network_speed,
-      server_access,
-      pjeoffice_uninstalled,
-      shodo_uninstalled,
-      websigner_uninstalled,
-      chrome_version
-    );
-
-    ReportServices.send({
-      extension_id,
-      network_speed,
-      server_access,
-      pjeoffice_uninstalled,
-      shodo_uninstalled,
-      websigner_uninstalled,
-      chrome_version,
-    });
+    if (extension_id !== "Null") {
+      ReportServices.send({
+        extension_id,
+        network_speed,
+        server_access,
+        pjeoffice_uninstalled,
+        shodo_uninstalled,
+        websigner_uninstalled,
+        chrome_version,
+      });
+    } else {
+      if (emailUser === "") {
+        toast.warn("Informe seu email de contato");
+      } else {
+        console.log("email >", emailUser);
+      }
+    }
   };
 
   const counter = useCallback(() => {
@@ -104,6 +102,18 @@ const InstallModal = () => {
             payload={payloadReport}
           />
         ))}
+
+        {extension_id === "Null" ? (
+          <S.Input
+            placeholder="Informe o seu email de contato"
+            type={"email"}
+            onChange={(e) => {
+              setEmailUser(e.target.value);
+            }}
+          />
+        ) : (
+          <></>
+        )}
 
         <S.Button disabled={count < 5} onClick={sendReport}>
           {count < 5 ? (

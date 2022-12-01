@@ -119,7 +119,7 @@ const Checkup = (props: ICheckup) => {
 
   const webSignerInstalled = useCallback(() => {
     const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
-      extId: "",
+      extId: "Null",
     };
 
     console.log("extId >", doc9.extId);
