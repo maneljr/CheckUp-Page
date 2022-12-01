@@ -5,6 +5,7 @@ import { Checkup } from "../components";
 import { ICheckItem, ICheckItemType } from "./types";
 import { ImSpinner3 } from "react-icons/im";
 import { ReportServices } from "../services";
+import { sendMessageToExtension } from "../utils/utils";
 
 const InstallModal = () => {
   const [count, setCont] = useState<number>(0);
@@ -19,10 +20,10 @@ const InstallModal = () => {
   const chrome_version = window.navigator.userAgent
     .match(/Chrom(e|ium)\/(\d+)\./)
     ?.at(2);
-  const extensionId = JSON.parse(localStorage.getItem("doc9") as string) || {
-    extId: "",
+  const { userId } = JSON.parse(localStorage.getItem("doc9") as string) || {
+    userId: "",
   };
-  const extension_id = extensionId.extId as string;
+  const extension_id = userId as string;
 
   const payloadReport = useCallback((type: ICheckItemType, value: any) => {
     if (type === ICheckItemType.NetworkSpeed) setNetwork_speed(value);

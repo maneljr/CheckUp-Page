@@ -1,3 +1,4 @@
+import { sendMessageToExtension } from "../../utils/utils";
 import { api } from "../api";
 import { IReport } from "./types";
 
@@ -7,7 +8,12 @@ const ReportServices = {
       .post("support/checkup", payload)
       .then((res) => {
         console.log("relatorio enviado com sucesso", res);
-        window.close();
+
+        const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
+          extId: "",
+        };
+
+        sendMessageToExtension(doc9.extId, "CLOSE/TAB", null);
       })
       .catch((err) => console.log("Erro ao enviar relatorio", err));
   },
