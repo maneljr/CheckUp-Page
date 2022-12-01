@@ -21,6 +21,8 @@ const ReportServices = {
           extId: "",
         };
 
+        console.log("fechar pagina");
+
         sendMessageToExtension(doc9.extId, "CLOSE/TAB", null);
       });
   },
