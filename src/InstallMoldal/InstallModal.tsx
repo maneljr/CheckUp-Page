@@ -23,6 +23,7 @@ const InstallModal = () => {
   const { userId } = JSON.parse(localStorage.getItem("doc9") as string) || {
     userId: "",
   };
+
   const extension_id = userId as string;
 
   const payloadReport = useCallback((type: ICheckItemType, value: any) => {
