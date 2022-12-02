@@ -38,9 +38,9 @@ const InstallModal = () => {
       setWebsigner_uninstalled(value);
   }, []);
 
-  const sendReport = () => {
+  const sendReport = useCallback(() => {
     if (extension_id !== "Null") {
-      console.log(
+      console.log("dados enviados >", {
         extension_id,
         network_speed,
         server_access,
@@ -48,8 +48,8 @@ const InstallModal = () => {
         shodo_uninstalled,
         websigner_uninstalled,
         chrome_version,
-        user_email
-      );
+        user_email,
+      });
       ReportServices.send({
         extension_id,
         network_speed,
@@ -64,6 +64,16 @@ const InstallModal = () => {
       if (user_email === "Null") {
         toast.warn("Informe seu email de contato");
       } else {
+        console.log("dados enviados >", {
+          extension_id,
+          network_speed,
+          server_access,
+          pjeoffice_uninstalled,
+          shodo_uninstalled,
+          websigner_uninstalled,
+          chrome_version,
+          user_email,
+        });
         ReportServices.send({
           extension_id,
           network_speed,
@@ -76,7 +86,16 @@ const InstallModal = () => {
         });
       }
     }
-  };
+  }, [
+    chrome_version,
+    extension_id,
+    network_speed,
+    pjeoffice_uninstalled,
+    server_access,
+    shodo_uninstalled,
+    user_email,
+    websigner_uninstalled,
+  ]);
 
   const counter = useCallback(() => {
     setCont((prev) => prev + 1);
