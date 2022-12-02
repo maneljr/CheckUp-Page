@@ -17,23 +17,11 @@ const ReportServices = {
 
         setTimeout(() => {
           sendMessageToExtension(doc9.extId, "CLOSE/TAB", null);
-        }, 4000);
+        }, 7000);
       })
       .catch((err) => {
         console.log("Erro ao enviar relatorio", err);
         toast.error("Erro ao enviar relatorio");
-      })
-      .finally(() => {
-        console.log("relatorio enviado com sucesso");
-        toast.success("relatorio enviado com sucesso");
-
-        const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
-          extId: "",
-        };
-
-        setTimeout(() => {
-          sendMessageToExtension(doc9.extId, "CLOSE/TAB", null);
-        }, 4000);
       });
   },
 };

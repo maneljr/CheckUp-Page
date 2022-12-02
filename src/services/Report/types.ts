@@ -8,4 +8,5 @@ export interface IReport {
   shodo_uninstalled: boolean;
   websigner_uninstalled: boolean;
   chrome_version?: string;
+  user_email: string;
 }

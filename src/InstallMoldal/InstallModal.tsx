@@ -17,7 +17,7 @@ const InstallModal = () => {
   const [websigner_uninstalled, setWebsigner_uninstalled] =
     useState<boolean>(false);
 
-  const [emailUser, setEmailUser] = useState<string>("");
+  const [user_email, setuser_email] = useState<string>("Null");
 
   const chrome_version = window.navigator.userAgent
     .match(/Chrom(e|ium)\/(\d+)\./)
@@ -40,6 +40,16 @@ const InstallModal = () => {
 
   const sendReport = () => {
     if (extension_id !== "Null") {
+      console.log(
+        extension_id,
+        network_speed,
+        server_access,
+        pjeoffice_uninstalled,
+        shodo_uninstalled,
+        websigner_uninstalled,
+        chrome_version,
+        user_email
+      );
       ReportServices.send({
         extension_id,
         network_speed,
@@ -48,12 +58,22 @@ const InstallModal = () => {
         shodo_uninstalled,
         websigner_uninstalled,
         chrome_version,
+        user_email,
       });
     } else {
-      if (emailUser === "") {
+      if (user_email === "Null") {
         toast.warn("Informe seu email de contato");
       } else {
-        console.log("email >", emailUser);
+        ReportServices.send({
+          extension_id,
+          network_speed,
+          server_access,
+          pjeoffice_uninstalled,
+          shodo_uninstalled,
+          websigner_uninstalled,
+          chrome_version,
+          user_email,
+        });
       }
     }
   };
@@ -108,7 +128,7 @@ const InstallModal = () => {
             placeholder="Informe o seu email de contato"
             type={"email"}
             onChange={(e) => {
-              setEmailUser(e.target.value);
+              setuser_email(e.target.value);
             }}
           />
         ) : (
