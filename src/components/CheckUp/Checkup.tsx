@@ -16,8 +16,8 @@ const Checkup = (props: ICheckup) => {
 
   const measureConnectionSpeed = useCallback(() => {
     const imageAddr =
-      "https://svs.gsfc.nasa.gov/vis/a030000/a030800/a030877/frames/5760x3240_16x9_01p/BlackMarble_2016_1200m_africa_s_labeled.png";
-    const downloadSize = 24332 * 1024;
+      "https://svs.gsfc.nasa.gov/vis/a030000/a030800/a030877/frames/5760x3240_16x9_01p/BlackMarble_2016_928m_canada_s_labeled.png";
+    const downloadSize = 22000 * 1024;
     const download = new Image();
     let endTime = 0;
     const startTime = new Date().getTime();
