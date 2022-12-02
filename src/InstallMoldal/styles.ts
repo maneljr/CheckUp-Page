@@ -121,7 +121,22 @@ const FailButton = styled.button`
   }
 `;
 
+const Input = styled.input`
+  border-radius: 4px 0 0 4px;
+  border: none;
+  padding: 0 16px;
+  outline: none;
+  background-color: #e9e6df;
+  height: 35px;
+
+  &::placeholder {
+    font-size: 11.5px;
+    //color: #7b7b7b;
+  }
+`;
+
 export {
+  Input,
   Container,
   Image,
   Card,

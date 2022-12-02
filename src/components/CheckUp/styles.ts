@@ -24,4 +24,19 @@ const CheckContainer = styled.div`
   }
 `;
 
-export { CheckContainer };
+const Input = styled.input`
+  flex: 1;
+  border-radius: 4px 0 0 4px;
+  border: none;
+  padding: 0 16px;
+  outline: none;
+  background-color: #e9e6df;
+  height: 35px;
+
+  &::placeholder {
+    font-size: 11.5px;
+    //color: #7b7b7b;
+  }
+`;
+
+export { CheckContainer, Input };

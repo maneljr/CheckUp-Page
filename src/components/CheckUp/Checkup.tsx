@@ -16,8 +16,8 @@ const Checkup = (props: ICheckup) => {
 
   const measureConnectionSpeed = useCallback(() => {
     const imageAddr =
-      "https://effigis.com/wp-content/uploads/2015/02/DigitalGlobe_WorldView1_50cm_8bit_BW_DRA_Bangkok_Thailand_2009JAN06_8bits_sub_r_1.jpg";
-    const downloadSize = 24332 * 1024;
+      "https://svs.gsfc.nasa.gov/vis/a030000/a030800/a030877/frames/5760x3240_16x9_01p/BlackMarble_2016_928m_canada_s_labeled.png";
+    const downloadSize = 22000 * 1024;
     const download = new Image();
     let endTime = 0;
     const startTime = new Date().getTime();
@@ -86,8 +86,8 @@ const Checkup = (props: ICheckup) => {
       counter();
     };
 
-    imagem.onerror = function (err, msg) {
-      console.log("PjeOffice não instalado ou desativado", err, msg);
+    imagem.onerror = function (err) {
+      console.log("PjeOffice não instalado ou desativado", err);
       payload(ICheckItemType.PjeOfficeUninstalled, true);
       setStatus(true);
       setLoading(false);
@@ -119,7 +119,7 @@ const Checkup = (props: ICheckup) => {
 
   const webSignerInstalled = useCallback(() => {
     const doc9 = JSON.parse(localStorage.getItem("doc9") as string) || {
-      extId: "",
+      extId: "Null",
     };
 
     console.log("extId >", doc9.extId);
