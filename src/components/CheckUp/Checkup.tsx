@@ -86,8 +86,8 @@ const Checkup = (props: ICheckup) => {
       counter();
     };
 
-    imagem.onerror = function (err, msg) {
-      console.log("PjeOffice não instalado ou desativado", err, msg);
+    imagem.onerror = function (err) {
+      console.log("PjeOffice não instalado ou desativado", err);
       payload(ICheckItemType.PjeOfficeUninstalled, true);
       setStatus(true);
       setLoading(false);
