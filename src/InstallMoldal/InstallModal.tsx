@@ -6,7 +6,6 @@ import * as S from "./styles";
 import { Checkup } from "../components";
 import { ICheckItem, ICheckItemType } from "./types";
 import { ReportServices } from "../services";
-import { bool } from "yup";
 
 const InstallModal = () => {
   const [count, setCont] = useState<number>(0);
@@ -78,6 +77,7 @@ const InstallModal = () => {
           chrome_version,
           user_email,
         });
+
         ReportServices.send({
           extension_id,
           network_speed,
