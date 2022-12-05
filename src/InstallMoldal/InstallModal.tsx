@@ -16,17 +16,13 @@ const InstallModal = () => {
   const [shodo_uninstalled, setShodo_uninstalled] = useState<boolean>(false);
   const [websigner_uninstalled, setWebsigner_uninstalled] =
     useState<boolean>(false);
-
   const [user_email, setuser_email] = useState<string>("Null");
+  const [isExtensionId, setIsExntensioId] = useState<boolean>(true);
+  const [isSendReport, setIsSendReport] = useState<boolean>(false);
 
   const chrome_version = window.navigator.userAgent
     .match(/Chrom(e|ium)\/(\d+)\./)
     ?.at(2);
-  const { userId } = JSON.parse(localStorage.getItem("doc9") as string) || {
-    userId: "Null",
-  };
-
-  const extension_id = userId as string;
 
   const payloadReport = useCallback((type: ICheckItemType, value: any) => {
     if (type === ICheckItemType.NetworkSpeed) setNetwork_speed(value);
@@ -39,6 +35,12 @@ const InstallModal = () => {
   }, []);
 
   const sendReport = useCallback(() => {
+    const { userId } = JSON.parse(localStorage.getItem("doc9") as string) || {
+      userId: "Null",
+    };
+
+    const extension_id = userId as string;
+
     if (extension_id !== "Null") {
       console.log("dados enviados >", {
         extension_id,
@@ -62,6 +64,7 @@ const InstallModal = () => {
       });
     } else {
       if (user_email === "Null") {
+        setIsExntensioId(false);
         toast.warn("Informe seu email de contato");
       } else {
         console.log("dados enviados >", {
@@ -74,6 +77,7 @@ const InstallModal = () => {
           chrome_version,
           user_email,
         });
+
         ReportServices.send({
           extension_id,
           network_speed,
@@ -84,11 +88,12 @@ const InstallModal = () => {
           chrome_version,
           user_email,
         });
+        setIsExntensioId(true);
+        setIsSendReport(true);
       }
     }
   }, [
     chrome_version,
-    extension_id,
     network_speed,
     pjeoffice_uninstalled,
     server_access,
@@ -142,7 +147,7 @@ const InstallModal = () => {
           />
         ))}
 
-        {extension_id === "Null" ? (
+        {isExtensionId !== true ? (
           <S.Input
             placeholder="Informe o seu email de contato"
             type={"email"}
@@ -154,9 +159,11 @@ const InstallModal = () => {
           <></>
         )}
 
-        <S.Button disabled={count < 5} onClick={sendReport}>
+        <S.Button disabled={count < 5 || isSendReport} onClick={sendReport}>
           {count < 5 ? (
             <ImSpinner3 className="spin" style={{ color: " #777" }} size={15} />
+          ) : isSendReport ? (
+            "Enviado"
           ) : (
             "Concluir"
           )}
