@@ -43,7 +43,7 @@ const InstallModal = () => {
 
     console.log("UserId >", extension_id);
 
-    if (extension_id !== "Null") {
+    if (extension_id !== "Null" && extension_id !== undefined) {
       console.log("dados enviados >", {
         extension_id,
         network_speed,
