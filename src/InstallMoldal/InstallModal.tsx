@@ -41,6 +41,8 @@ const InstallModal = () => {
 
     const extension_id = userId as string;
 
+    console.log("UserId >", extension_id);
+
     if (extension_id !== "Null") {
       console.log("dados enviados >", {
         extension_id,
