@@ -126,11 +126,15 @@ const Checkup = (props: ICheckup) => {
 
     sendMessageToExtension(doc9.extId, "GET/INSTALLED_EXTENSIONS", null)
       .then((response) => {
-        if (
-          response.data.map((r) => {
-            return r.name.includes("Web Signer") && r.enabled;
-          })
-        ) {
+        let isWebSigner = false;
+
+        response.data.forEach((r) => {
+          if (r.name.includes("Web Signer") && r.enabled) {
+            isWebSigner = true;
+          }
+        });
+
+        if (isWebSigner) {
           console.log("Web Signer ativo");
           payload(ICheckItemType.WebSignerUninstalled, false);
           setStatus(false);
