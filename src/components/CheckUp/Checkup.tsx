@@ -67,7 +67,7 @@ const Checkup = (props: ICheckup) => {
         }
       });
     } catch (error) {
-      console.log("Shodo não instalado ou desativado ->", error);
+      console.log("Shodo não instalado ou desativado");
       payload(ICheckItemType.ShodoUninstalled, true);
       setStatus(true);
       setLoading(false);
@@ -87,7 +87,7 @@ const Checkup = (props: ICheckup) => {
     };
 
     imagem.onerror = function (err) {
-      console.log("PjeOffice não instalado ou desativado", err);
+      console.log("PjeOffice não instalado ou desativado");
       payload(ICheckItemType.PjeOfficeUninstalled, true);
       setStatus(true);
       setLoading(false);
@@ -147,7 +147,7 @@ const Checkup = (props: ICheckup) => {
         }
       })
       .catch((err) => {
-        console.log("Erro ao tentar acesso ao Web Signer", err);
+        console.log("Erro ao tentar acesso ao Web Signer");
         payload(ICheckItemType.WebSignerUninstalled, true);
         setStatus(true);
         setLoading(false);
